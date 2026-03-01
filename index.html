@@ -1,0 +1,542 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>SymbiVibe | The Symbiosis Social Pulse</title>
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="theme-dark" data-theme="dark">
+  <div class="auth-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="auth-title" aria-hidden="true" style="display: none;">
+    <div class="auth-card">
+      <button type="button" class="auth-close" aria-label="Close authentication">×</button>
+      <div class="auth-brand">
+        <span class="brand-icon" aria-hidden="true">⚜️</span>
+        <span class="brand-name">SymbiVibe</span>
+      </div>
+      <h2 id="auth-title">Join the vibe</h2>
+      <p class="auth-subtitle">Enter your name to start chatting, or sign in with Google to unlock your full profile.</p>
+      <div class="auth-feedback info" role="alert" aria-live="assertive" hidden></div>
+      <form class="auth-form" aria-label="SymbiVibe login">
+        <label>
+          <span>Your Name</span>
+          <input type="text" name="name" autocomplete="name" placeholder="e.g. Arjun Sharma" required />
+        </label>
+        <button type="submit" class="cta primary full">Start Chatting</button>
+      </form>
+      <div class="auth-divider" role="presentation">
+        <span>or sign in with</span>
+      </div>
+      <button type="button" class="google-login" aria-label="Continue with Google">
+        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="" aria-hidden="true" />
+        <span>Google Account</span>
+      </button>
+    </div>
+  </div>
+
+  <header class="top-nav" aria-label="Brand">
+    <button type="button" class="brand brand-link" id="brand-home-link" aria-label="Go to SymbiVibe home">
+      <span class="brand-icon" aria-hidden="true">⚜️</span>
+      <span class="brand-name">SymbiVibe</span>
+    </button>
+    <div class="nav-actions">
+        <div class="connection-status" id="connection-status" aria-live="polite">
+          <span class="status-indicator" id="status-indicator"></span>
+          <span class="status-text" id="status-text">Connecting...</span>
+          <button type="button" class="retry-btn" id="retry-btn" style="display: none;" aria-label="Retry connection">
+            <svg viewBox="0 0 24 24" focusable="false">
+              <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
+            </svg>
+          </button>
+        </div>
+      <button type="button" class="icon-btn login-btn" id="login-btn" aria-label="Sign In">
+        <svg viewBox="0 0 24 24" focusable="false">
+          <path d="M11 7L9.6 8.4l2.6 2.6H2v2h10.2l-2.6 2.6L11 17l5-5-5-5zm9 12h-8v2h8c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-8v2h8v14z"/>
+        </svg>
+      </button>
+      <button type="button" class="icon-btn logout-btn" id="logout-btn" aria-label="Logout" style="display: none;">
+        <svg viewBox="0 0 24 24" focusable="false">
+          <path d="M16 17v-3H9v-4h7V7l5 5-5 5zM14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/>
+        </svg>
+      </button>
+      <button type="button" class="icon-btn" id="about-btn" aria-label="About SymbiVibe">
+        <svg viewBox="0 0 24 24" focusable="false"><path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
+      </button>
+      <button type="button" class="icon-btn theme-toggle" data-theme-toggle aria-label="Switch to light mode">
+        <svg class="theme-icon sun" viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+          <path d="M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12zm0-14a1 1 0 0 1 1 1v1a1 1 0 1 1-2 0V5a1 1 0 0 1 1-1zm0 16a1 1 0 0 1 1 1v1a1 1 0 1 1-2 0v-1a1 1 0 0 1 1-1zm9-7a1 1 0 0 1-1 1h-1a1 1 0 1 1 0-2h1a1 1 0 0 1 1 1zM6 12a1 1 0 0 1-1 1H4a1 1 0 1 1 0-2h1a1 1 0 0 1 1 1zm12.95-5.95a1 1 0 0 1 0 1.4l-.71.7a1 1 0 1 1-1.42-1.4l.71-.7a1 1 0 0 1 1.42 0zM7.17 16.83a1 1 0 0 1 0 1.42l-.7.7a1 1 0 1 1-1.42-1.42l.7-.7a1 1 0 0 1 1.42 0zm11.66 1.42a1 1 0 1 1-1.42 1.42l-.7-.7a1 1 0 0 1 1.42-1.42zM7.17 7.17a1 1 0 0 1-1.42 0l-.7-.71A1 1 0 0 1 6.47 5l.7.71a1 1 0 0 1 0 1.41z"/>
+        </svg>
+        <svg class="theme-icon moon" viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+      <button type="button" class="icon-btn primary" aria-label="Create new vibe">
+        <svg viewBox="0 0 24 24" focusable="false"><path d="M12 5a1 1 0 0 1 1 1v5h5a1 1 0 0 1 0 2h-5v5a1 1 0 0 1-2 0v-5H6a1 1 0 0 1 0-2h5V6a1 1 0 0 1 1-1z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <nav class="bottom-nav" aria-label="Primary navigation">
+    <button type="button" class="bottom-tab active" data-section="home" aria-label="Home" aria-current="page">
+      <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+      <span>Home</span>
+    </button>
+    <button type="button" class="bottom-tab" data-section="amphi" aria-label="Amphi">
+      <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+      <span>Amphi</span>
+    </button>
+    <button type="button" class="bottom-tab" data-section="nescafe" aria-label="Nescafe">
+      <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3zM4 19h16v2H4z"/></svg>
+      <span>Nescafe</span>
+    </button>
+    <button type="button" class="bottom-tab" data-section="canteen" aria-label="Canteen">
+      <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true"><path d="M18.06 22.99h1.66c.84 0 1.53-.64 1.63-1.46L23 5.05h-5V1h-1.97v4.05h-4.97l.3 2.34c1.71.47 3.31 1.32 4.27 2.26 1.44 1.42 2.43 2.89 2.43 5.29v8.05zM1 21.99V21h15.03v.99c0 .55-.45 1-1.01 1H2.01c-.56 0-1.01-.45-1.01-1zm15.03-7c0-8-15.03-8-15.03 0h15.03zM1.02 17h15v2H1.02z"/></svg>
+      <span>Canteen</span>
+    </button>
+    <button type="button" class="bottom-tab" data-section="library" aria-label="Library">
+      <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true"><path d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1zm0 13.5c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V8c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5v11.5z"/></svg>
+      <span>Library</span>
+    </button>
+    <button type="button" class="bottom-tab" data-section="profile" aria-label="Profile">
+      <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+      <span>Profile</span>
+    </button>
+  </nav>
+
+  <div class="app-shell">
+    <main>
+      <section id="home" class="panel view home-panel active" aria-labelledby="home-heading">
+        <div class="hero">
+          <div class="hero-copy">
+            <h1 id="home-heading">SymbiVibe</h1>
+            <p class="hero-tagline">Your royal social hub connecting every voice across Symbiosis. Stay ahead of events, sync with your squad, and feel the pulse of campus life instantly.</p>
+            <div class="hero-cta">
+              <button class="cta primary" id="start-vibing-btn">Start Vibing</button>
+              <button class="cta secondary">Create Event</button>
+            </div>
+            <dl class="live-stats" aria-label="Live platform stats">
+              <div>
+                <dt>People vibing now</dt>
+                <dd><span id="people-online">0</span></dd>
+              </div>
+              <div>
+                <dt>Trending happenings</dt>
+                <dd id="trending-count">3</dd>
+              </div>
+              <div>
+                <dt>Communities</dt>
+                <dd id="community-count">27</dd>
+              </div>
+            </dl>
+          </div>
+            <div class="hero-visual" aria-hidden="true">
+            <div class="orbit">
+              <div class="orbit-card"><span>Saksham 4.0 Event</span></div>
+              <div class="orbit-card"><span>DAY-1 of Saksham</span></div>
+              <div class="orbit-card"><span>End of UT-1</span></div>
+            </div>
+            <div class="pulse"></div>
+          </div>
+        </div>
+
+        <div class="home-grid">
+          <section class="feed" aria-labelledby="feed-heading">
+            <header>
+              <h2 id="feed-heading">News & Events Feed</h2>
+              <div class="feed-filters" role="toolbar" aria-label="Filter feed">
+                <button class="filter active" data-filter="all">All</button>
+                <button class="filter" data-filter="news">News</button>
+                <button class="filter" data-filter="event">Events</button>
+                <button class="filter" data-filter="alert">Alerts</button>
+              </div>
+            </header>
+            <ul class="feed-list" id="feed-list" aria-live="polite"></ul>
+          </section>
+
+          <aside class="secondary">
+            <section class="live-events" aria-labelledby="events-heading">
+              <h3 id="events-heading">Happening Next</h3>
+              <ul id="events-list"></ul>
+            </section>
+          </aside>
+        </div>
+      </section>
+
+      <section id="amphi" class="panel view" aria-labelledby="amphi-heading" hidden aria-hidden="true">
+        <div class="section-header">
+          <h2 id="amphi-heading">The Amphi Arena</h2>
+          <p>Where campus energy hits maximum. Plan flash mobs, film screenings, or the next open mic sensation.</p>
+        </div>
+        <div class="chat-panel" data-chat-section="amphi">
+          <header class="chat-header">
+            <div class="chat-header-info">
+              <h3>Amphi Live Chat</h3>
+              <span data-real-time-label="amphi" data-label="Coordinate stage takeovers in real-time">Coordinate stage takeovers in real-time • 0 messages • 0 online</span>
+            </div>
+            <div class="vibe-strip" id="vibe-strip-amphi">
+              <span class="vibe-strip-icon" id="vibe-icon-amphi">❄️</span>
+              <div class="vibe-strip-track">
+                <div class="vibe-strip-fill" id="vibe-fill-amphi" data-level="cold" style="width:0%"></div>
+              </div>
+              <span class="vibe-strip-pct" id="vibe-pct-amphi">0%</span>
+              <span class="vibe-strip-lbl" id="vibe-label-amphi">Quiet...</span>
+            </div>
+          </header>
+          <div class="chat-body">
+            <button type="button" class="chat-load-more" hidden>Load earlier vibes</button>
+            <ul class="chat-messages"></ul>
+          </div>
+          <form class="chat-composer" data-section="amphi">
+            <div class="composer-tools">
+              <button type="button" class="emoji-btn" aria-label="Add emoji" title="Add emoji">
+                <svg viewBox="0 0 24 24" focusable="false"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-1.5-1.5L9.5 17 8 15.5 6.5 17 5 15.5 3.5 17 2 15.5V12c0-5.52 4.48-10 10-10s10 4.48 10 10v3.5L19.5 17 18 15.5 16.5 17 15 15.5 13.5 17 12 15.5z"/></svg>
+              </button>
+              <label class="file-attach" aria-label="Attach media">
+                <input type="file" multiple />
+                <svg viewBox="0 0 24 24" focusable="false"><path d="M12 5a1 1 0 0 1 1 1v5h5a1 1 0 0 1 0 2h-5v5a1 1 0 0 1-2 0v-5H6a1 1 0 0 1 0-2h5V6a1 1 0 0 1 1-1z"/></svg>
+              </label>
+              <button type="button" class="camera-btn" aria-label="Take photo" title="Take photo">
+                <svg viewBox="0 0 24 24" focusable="false"><path d="M12 15.5A3.5 3.5 0 0 1 8.5 12A3.5 3.5 0 0 1 12 8.5a3.5 3.5 0 0 1 3.5 3.5a3.5 3.5 0 0 1-3.5 3.5M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64L4.57 11c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65z"/></svg>
+              </button>
+            </div>
+            <div class="chat-composer-input">
+              <textarea placeholder="Share your vibe..." rows="1"></textarea>
+              <div class="composer-actions">
+                <span class="attachment-count" hidden>0</span>
+                <button type="submit" class="send-btn" aria-label="Send message">
+                  <svg viewBox="0 0 24 24" focusable="false"><path d="M4 3l17 9-17 9v-7l10-2-10-2z"/></svg>
+                </button>
+              </div>
+            </div>
+            <div class="attachment-preview" aria-live="polite" hidden></div>
+          </form>
+        </div>
+      </section>
+
+      <section id="nescafe" class="panel view" aria-labelledby="nescafe-heading" hidden aria-hidden="true">
+        <div class="section-header">
+          <h2 id="nescafe-heading">Nescafe Lounge</h2>
+          <p>Track coffee catch-ups, study caffeine levels, and spontaneous jam sessions.</p>
+        </div>
+        <div class="chat-panel" data-chat-section="nescafe">
+          <header class="chat-header">
+            <div class="chat-header-info">
+              <h3>Nescafe Community</h3>
+              <span data-real-time-label="nescafe" data-label="Swap brew tips in real-time">Swap brew tips in real-time • 0 messages • 0 online</span>
+            </div>
+            <div class="vibe-strip" id="vibe-strip-nescafe">
+              <span class="vibe-strip-icon" id="vibe-icon-nescafe">❄️</span>
+              <div class="vibe-strip-track">
+                <div class="vibe-strip-fill" id="vibe-fill-nescafe" data-level="cold" style="width:0%"></div>
+              </div>
+              <span class="vibe-strip-pct" id="vibe-pct-nescafe">0%</span>
+              <span class="vibe-strip-lbl" id="vibe-label-nescafe">Quiet...</span>
+            </div>
+          </header>
+          <div class="chat-body">
+            <button type="button" class="chat-load-more" hidden>Load earlier brews</button>
+            <ul class="chat-messages"></ul>
+          </div>
+          <form class="chat-composer" data-section="nescafe">
+            <div class="composer-tools">
+              <button type="button" class="emoji-btn" aria-label="Add emoji" title="Add emoji">
+                <svg viewBox="0 0 24 24" focusable="false"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-1.5-1.5L9.5 17 8 15.5 6.5 17 5 15.5 3.5 17 2 15.5V12c0-5.52 4.48-10 10-10s10 4.48 10 10v3.5L19.5 17 18 15.5 16.5 17 15 15.5 13.5 17 12 15.5z"/></svg>
+              </button>
+              <label class="file-attach" aria-label="Attach media">
+                <input type="file" multiple />
+                <svg viewBox="0 0 24 24" focusable="false"><path d="M12 5a1 1 0 0 1 1 1v5h5a1 1 0 0 1 0 2h-5v5a1 1 0 0 1-2 0v-5H6a1 1 0 0 1 0-2h5V6a1 1 0 0 1 1-1z"/></svg>
+              </label>
+              <button type="button" class="camera-btn" aria-label="Take photo" title="Take photo">
+                <svg viewBox="0 0 24 24" focusable="false"><path d="M12 15.5A3.5 3.5 0 0 1 8.5 12A3.5 3.5 0 0 1 12 8.5a3.5 3.5 0 0 1 3.5 3.5a3.5 3.5 0 0 1-3.5 3.5M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64L4.57 11c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65z"/></svg>
+              </button>
+            </div>
+            <div class="chat-composer-input">
+              <textarea placeholder="Drop a coffee update..." rows="1"></textarea>
+              <div class="composer-actions">
+                <span class="attachment-count" hidden>0</span>
+                <button type="submit" class="send-btn" aria-label="Send message">
+                  <svg viewBox="0 0 24 24" focusable="false"><path d="M4 3l17 9-17 9v-7l10-2-10-2z"/></svg>
+                </button>
+              </div>
+            </div>
+            <div class="attachment-preview" aria-live="polite" hidden></div>
+          </form>
+        </div>
+      </section>
+
+      <section id="canteen" class="panel view" aria-labelledby="canteen-heading" hidden aria-hidden="true">
+        <div class="section-header">
+          <h2 id="canteen-heading">Canteen Central</h2>
+          <p>Track live queues, trending dishes, and group orders without missing a beat.</p>
+        </div>
+        <div class="chat-panel" data-chat-section="canteen">
+          <header class="chat-header">
+            <div class="chat-header-info">
+              <h3>Canteen Chat</h3>
+              <span data-real-time-label="canteen" data-label="Coordinate group orders in real-time">Coordinate group orders in real-time • 0 messages • 0 online</span>
+            </div>
+            <div class="vibe-strip" id="vibe-strip-canteen">
+              <span class="vibe-strip-icon" id="vibe-icon-canteen">❄️</span>
+              <div class="vibe-strip-track">
+                <div class="vibe-strip-fill" id="vibe-fill-canteen" data-level="cold" style="width:0%"></div>
+              </div>
+              <span class="vibe-strip-pct" id="vibe-pct-canteen">0%</span>
+              <span class="vibe-strip-lbl" id="vibe-label-canteen">Quiet...</span>
+            </div>
+          </header>
+          <div class="chat-body">
+            <button type="button" class="chat-load-more" hidden>Load earlier bites</button>
+            <ul class="chat-messages"></ul>
+          </div>
+          <form class="chat-composer" data-section="canteen">
+            <div class="composer-tools">
+              <button type="button" class="emoji-btn" aria-label="Add emoji" title="Add emoji">
+                <svg viewBox="0 0 24 24" focusable="false"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-1.5-1.5L9.5 17 8 15.5 6.5 17 5 15.5 3.5 17 2 15.5V12c0-5.52 4.48-10 10-10s10 4.48 10 10v3.5L19.5 17 18 15.5 16.5 17 15 15.5 13.5 17 12 15.5z"/></svg>
+              </button>
+              <label class="file-attach" aria-label="Attach media">
+                <input type="file" multiple />
+                <svg viewBox="0 0 24 24" focusable="false"><path d="M12 5a1 1 0 0 1 1 1v5h5a1 1 0 0 1 0 2h-5v5a1 1 0 0 1-2 0v-5H6a1 1 0 0 1 0-2h5V6a1 1 0 0 1 1-1z"/></svg>
+              </label>
+              <button type="button" class="camera-btn" aria-label="Take photo" title="Take photo">
+                <svg viewBox="0 0 24 24" focusable="false"><path d="M12 15.5A3.5 3.5 0 0 1 8.5 12A3.5 3.5 0 0 1 12 8.5a3.5 3.5 0 0 1 3.5 3.5a3.5 3.5 0 0 1-3.5 3.5M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64L4.57 11c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65z"/></svg>
+              </button>
+            </div>
+            <div class="chat-composer-input">
+              <textarea placeholder="Share what's hot..." rows="1"></textarea>
+              <div class="composer-actions">
+                <span class="attachment-count" hidden>0</span>
+                <button type="submit" class="send-btn" aria-label="Send message">
+                  <svg viewBox="0 0 24 24" focusable="false"><path d="M4 3l17 9-17 9v-7l10-2-10-2z"/></svg>
+                </button>
+              </div>
+            </div>
+            <div class="attachment-preview" aria-live="polite" hidden></div>
+          </form>
+        </div>
+      </section>
+
+      <section id="library" class="panel view" aria-labelledby="library-heading" hidden aria-hidden="true">
+        <div class="section-header">
+          <h2 id="library-heading">Library Nexus</h2>
+          <p>Coordinate study pods, book drops, and serene focus zones with live ambience scores.</p>
+        </div>
+        <div class="chat-panel" data-chat-section="library">
+          <header class="chat-header">
+            <div class="chat-header-info">
+              <h3>Library Lounge</h3>
+              <span data-real-time-label="library" data-label="Share study updates in real-time">Share study updates in real-time • 0 messages • 0 online</span>
+            </div>
+            <div class="vibe-strip" id="vibe-strip-library">
+              <span class="vibe-strip-icon" id="vibe-icon-library">❄️</span>
+              <div class="vibe-strip-track">
+                <div class="vibe-strip-fill" id="vibe-fill-library" data-level="cold" style="width:0%"></div>
+              </div>
+              <span class="vibe-strip-pct" id="vibe-pct-library">0%</span>
+              <span class="vibe-strip-lbl" id="vibe-label-library">Quiet...</span>
+            </div>
+          </header>
+          <div class="chat-body">
+            <button type="button" class="chat-load-more" hidden>Load earlier notes</button>
+            <ul class="chat-messages"></ul>
+          </div>
+          <form class="chat-composer" data-section="library">
+            <div class="composer-tools">
+              <button type="button" class="emoji-btn" aria-label="Add emoji" title="Add emoji">
+                <svg viewBox="0 0 24 24" focusable="false"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-1.5-1.5L9.5 17 8 15.5 6.5 17 5 15.5 3.5 17 2 15.5V12c0-5.52 4.48-10 10-10s10 4.48 10 10v3.5L19.5 17 18 15.5 16.5 17 15 15.5 13.5 17 12 15.5z"/></svg>
+              </button>
+              <label class="file-attach" aria-label="Attach media">
+                <input type="file" multiple />
+                <svg viewBox="0 0 24 24" focusable="false"><path d="M12 5a1 1 0 0 1 1 1v5h5a1 1 0 0 1 0 2h-5v5a1 1 0 0 1-2 0v-5H6a1 1 0 0 1 0-2h5V6a1 1 0 0 1 1-1z"/></svg>
+              </label>
+              <button type="button" class="camera-btn" aria-label="Take photo" title="Take photo">
+                <svg viewBox="0 0 24 24" focusable="false"><path d="M12 15.5A3.5 3.5 0 0 1 8.5 12A3.5 3.5 0 0 1 12 8.5a3.5 3.5 0 0 1 3.5 3.5a3.5 3.5 0 0 1-3.5 3.5M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64L4.57 11c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65z"/></svg>
+              </button>
+            </div>
+            <div class="chat-composer-input">
+              <textarea placeholder="Share a library update..." rows="1"></textarea>
+              <div class="composer-actions">
+                <span class="attachment-count" hidden>0</span>
+                <button type="submit" class="send-btn" aria-label="Send message">
+                  <svg viewBox="0 0 24 24" focusable="false"><path d="M4 3l17 9-17 9v-7l10-2-10-2z"/></svg>
+                </button>
+              </div>
+            </div>
+            <div class="attachment-preview" aria-live="polite" hidden></div>
+          </form>
+        </div>
+      </section>
+
+      <section id="profile" class="panel view" aria-labelledby="profile-heading" hidden aria-hidden="true">
+
+        <!-- Profile Hero Banner -->
+        <div class="profile-hero-banner">
+          <div class="profile-hero-glow"></div>
+          <div class="profile-avatar-container">
+            <div class="profile-avatar-ring"></div>
+            <div class="profile-avatar" id="profile-initials">SV</div>
+            <div class="profile-status-dot" id="profile-status-dot"></div>
+          </div>
+          <div class="profile-hero-text">
+            <div class="profile-name-row">
+              <h2 id="profile-heading"><span id="profile-name">Symbi Student</span></h2>
+              <span class="profile-auth-badge" id="profile-auth-badge">Guest</span>
+            </div>
+            <p id="profile-role" class="profile-role-text">SymbiVibe Member</p>
+            <div class="profile-tags">
+              <span class="profile-tag" id="profile-vibe-tag">⚡ Newbie Viber</span>
+              <span class="profile-tag profile-tag-campus">🎓 Symbiosis Pune</span>
+            </div>
+          </div>
+          <div class="profile-hero-actions">
+            <button class="cta primary" id="profile-edit-btn" type="button">Edit Aura</button>
+            <button class="cta secondary" id="profile-share-btn" type="button">Share</button>
+          </div>
+        </div>
+
+        <!-- Stats Row -->
+        <div class="profile-stats-grid">
+          <div class="profile-stat-tile">
+            <span class="stat-tile-icon">📡</span>
+            <span class="stat-tile-value" id="profile-reach">0</span>
+            <span class="stat-tile-label">Reach</span>
+          </div>
+          <div class="profile-stat-tile">
+            <span class="stat-tile-icon">👥</span>
+            <span class="stat-tile-value" id="profile-allies">0</span>
+            <span class="stat-tile-label">Allies</span>
+          </div>
+          <div class="profile-stat-tile">
+            <span class="stat-tile-icon">⚡</span>
+            <span class="stat-tile-value" id="profile-vibes">0</span>
+            <span class="stat-tile-label">Vibes</span>
+          </div>
+          <div class="profile-stat-tile">
+            <span class="stat-tile-icon">💬</span>
+            <span class="stat-tile-value" id="profile-msg-count">0</span>
+            <span class="stat-tile-label">Messages</span>
+          </div>
+        </div>
+
+        <!-- Content Grid -->
+        <div class="profile-content-grid">
+          <div class="profile-section-card">
+            <h3 class="profile-card-title"><span>📜</span> Chronicles</h3>
+            <ul id="profile-timeline" class="timeline"></ul>
+          </div>
+          <div class="profile-section-card">
+            <h3 class="profile-card-title"><span>🏷️</span> Signature Circles</h3>
+            <ul class="badge-list" id="profile-groups"></ul>
+          </div>
+          <div class="profile-section-card">
+            <h3 class="profile-card-title"><span>🔥</span> Live Vibe Activity</h3>
+            <div class="profile-vibe-activity" id="profile-vibe-activity">
+              <!-- populated by JS -->
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>© <span id="year"></span> SymbiVibe &nbsp;·&nbsp; Founded by <strong>Krishna From CSIT</strong></p>
+      <div class="footer-socials">
+        <a href="https://www.instagram.com/urstrulylkrishna/" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="Follow on Instagram">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          <span>urstrulylkrishna</span>
+        </a>
+         <a href="https://x.com/krishnashahane_" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="Follow on X">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          <span>@krishnashahane_</span>
+        </a>
+        <a href="https://github.com/krishnashahane" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="GitHub Profile">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+          <span>krishnashahane</span>
+        </a>
+      </div>
+    </footer>
+  </div>
+
+  <!-- About Modal -->
+  <div class="about-overlay hidden" id="about-overlay" role="dialog" aria-modal="true" aria-labelledby="about-title" aria-hidden="true" style="display: none;">
+    <div class="auth-card about-card">
+      <button type="button" class="auth-close" id="about-close" aria-label="Close about">×</button>
+      <div class="auth-brand">
+        <span class="brand-icon" aria-hidden="true">⚜️</span>
+        <span class="brand-name">SymbiVibe</span>
+      </div>
+      <h2 id="about-title">About SymbiVibe</h2>
+      <div class="about-content">
+        <p>SymbiVibe was founded by <strong>Krishna</strong> — a First Year Cybersecurity student at Symbiosis Skills and Professional University, Pune (CSIT). Frustrated by how fragmented campus communication felt — scattered across WhatsApp groups, notice boards, and word-of-mouth — Krishna set out to build something better: a real-time social pulse for every corner of Symbiosis.</p>
+        <p>As <strong>Founder &amp; CEO of SymbiVibe</strong>, Krishna envisioned a platform where every student could vibe together across the Amphi, Nescafe Lounge, Canteen, Library, and beyond — all in one place, live and instantaneous. SymbiVibe is mobile-first and works beautifully on any device.</p>
+        <p>SymbiVibe is growing into the definitive digital heartbeat of Symbiosis campus life — real-time chats, live event feeds, queue trackers, and more. Curated for students, by a student who lives it every single day.</p>
+      </div>
+      <div class="about-footer">
+        <span class="about-tag">🎓 SSPU · Pune</span>
+        <span class="about-tag">🔐 Cybersecurity · First Year · Section B</span>
+        <span class="about-tag">⚜️ Founder &amp; CEO</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Emoji Picker Modal -->
+  <div class="emoji-picker-modal" id="emoji-picker" style="display: none;">
+    <div class="emoji-picker-content">
+      <div class="emoji-picker-header">
+        <h3>Choose an emoji</h3>
+        <button type="button" class="emoji-picker-close" aria-label="Close emoji picker">×</button>
+      </div>
+      <div class="emoji-picker-body">
+        <div class="emoji-categories">
+          <button class="emoji-category active" data-category="recent">Recent</button>
+          <button class="emoji-category" data-category="smileys">😀</button>
+          <button class="emoji-category" data-category="people">👥</button>
+          <button class="emoji-category" data-category="animals">🐶</button>
+          <button class="emoji-category" data-category="food">🍕</button>
+          <button class="emoji-category" data-category="activities">⚽</button>
+          <button class="emoji-category" data-category="travel">✈️</button>
+          <button class="emoji-category" data-category="objects">📱</button>
+          <button class="emoji-category" data-category="symbols">❤️</button>
+          <button class="emoji-category" data-category="flags">🏳️</button>
+        </div>
+        <div class="emoji-grid" id="emoji-grid">
+          <!-- Emojis will be populated by JavaScript -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Firebase configuration - safe to expose (public API keys)
+    window.SYMBIVIBE_FIREBASE_CONFIG = window.SYMBIVIBE_FIREBASE_CONFIG || {
+      apiKey: 'AIzaSyCrPFi4U73SBiiDkHhHx6NpCzMhHYrINYw',
+      authDomain: 'symbivibe-313f3.firebaseapp.com',
+      projectId: 'symbivibe-313f3',
+      storageBucket: 'symbivibe-313f3.firebasestorage.app',
+      messagingSenderId: '761848897247',
+      appId: '1:761848897247:web:a7c79675f21ab5c4b4936a',
+      measurementId: 'G-WK2GZ62P3W'
+    };
+    window.SYMBIVIBE_VAPID_KEY = 'BPShMss60V5WXewWDwunuFQ2gI1CCyjxDgsnco4GH-Qhu59nGGu46CistgTRH_R83EBhd6snr4psBrpMI5zf1M4';
+    window.SYMBIVIBE_ALLOWED_DOMAIN = 'symbivibe.com';
+
+    // Google Auth enabled
+    window.SYMBIVIBE_ENABLE_GOOGLE_AUTH = true;
+  </script>
+    <div class="global-toast" id="global-toast" role="alert" aria-live="assertive" hidden></div>
+  <script type="module" src="app.js"></script>
+    <script>
+      // Vercel Analytics - Production version
+      (function() {
+        var script = document.createElement('script');
+        script.src = 'https://va.vercel-scripts.com/v1/script.js';
+        script.setAttribute('data-api', '/api/analytics');
+        document.head.appendChild(script);
+      })();
+    </script>
+  </body>
+</html>

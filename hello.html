@@ -1,0 +1,233 @@
+<!--Basic HTML Structure-->
+<!--1. Document Declaration
+<!DOCTYPE html>: This is not an HTML tag, but a declaration that tells the web browser the document is written in HTML5. It ensures the browser renders the page correctly using modern standards. 
+2. Root Element
+<html>: This is the root element of the page. It acts as a container for every other part of the document. The </html> tag at the very bottom closes it. 
+3. Metadata Section
+<head>: This section contains metadata—information about the page that isn't directly visible to visitors. It is used for the page title, links to styles, and search engine data.
+<title>My Website</title>: This defines the text that appears on the browser tab or in search engine results. 
+4. Visible Content Section
+<body>: This is the container for all visible content on the webpage. Anything you want users to see (text, images, links) must go here.
+<h1>Hello World</h1>: This is a Level 1 Heading, typically used for the main title of a page. It makes the text "Hello World" appear large and bold by default.-->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width="device-width, initial-scale=1.0">
+        <title>Hello World</title>
+    </head>
+</html>
+
+<!--Head of Section-->
+<!--controls metadata+resources-->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World</title>
+</head>
+
+<!--Body of Section-->
+<!--controls content+structure-->
+<body>
+    <h1>Hello World</h1>
+</body>
+
+<!--Complete HTML Document-->
+
+<h1>Heading</h1>
+<h2>Subheading</h2>
+<p>This is a paragraph.</p>
+<b>Bold</b>
+<i>Italic</i>
+<u>Underline</u>
+<strong>Important</strong>
+<em>Emphasis</em>
+<br>
+<hr>
+
+<!--Links-->
+
+<a href="https://google.com">Go to Google</a>
+
+<a href="about.html">Internal Page</a>
+
+<!--Open new tab-->
+<a href="https://google.com" target="_blank">Open Google in New Tab</a>
+
+
+<!--Images-->
+<img src="image.jpg" alt="Description of Image"
+     width="300" height="200">
+
+
+<!--Lists-->
+<!--Unordered Lists-->
+<ul>
+    <li>First Item</li>
+    <li>Second Item</li>
+    <li>Third Item</li>
+</ul>
+
+<!--Ordered Lists-->
+
+<ol>
+    <li>First Item</li>
+    <li>Second Item</li>
+    <li>Third Item</li>
+</ol>
+
+<!--Tables-->
+
+<table Border="1">
+    <tr>
+        <th>Name</th>
+        <th>Age</th>
+        <th>City</th>
+    </tr>
+    <tr>
+        <td>John</td>
+        <td>30</td>
+        <td>New York</td>
+    </tr>
+    <tr>
+        <td>Jane</td>
+        <td>25</td>
+        <td>Los Angeles</td>
+    </tr>
+
+    <!--Forms-->
+<form action="/submit" method="POST">
+  <input type="text" name="username" placeholder="Enter name">
+  <input type="password" name="password">
+  <input type="email">
+  <input type="number">
+  <input type="date">
+  <input type="file">
+  <input type="checkbox"> Agree
+  <input type="radio" name="gender"> Male
+  <textarea></textarea>
+  <select>
+    <option>India</option>
+    <option>USA</option>
+  </select>
+  <button type="submit">Submit</button>
+</form>
+
+
+<!--Semantic HTML-->
+
+<header>Top section</header>
+<nav>Menu</nav>
+<main>Main content</main>
+<section>Section</section>
+<article>Article</article>
+<aside>Sidebar</aside>
+<footer>Footer</footer>
+
+
+<!--Div and Span-->
+<!--Structure containers-->
+
+<div>
+    Block container
+</div>
+<span>
+    Inline text
+</span>
+
+
+<!--Video-->
+
+<video controls width="400">
+  <source src="video.mp4" type="video/mp4">
+</video>
+
+<!--Audio-->
+<audio controls>
+  <source src="audio.mp3" type="audio/mpeg">
+</audio>
+
+<!--Iframes-->
+<!--Embeds another webpage within the current page-->
+<iframe src="https://example.com" width="600" height="400"></iframe>
+
+
+<!--Buttons-->
+<button>Click</button>
+
+<button type="button">Normal</button>
+<button type="submit">Submit</button>
+<button type="reset">Reset</button>
+
+
+<!--Attributes-->
+
+<p class="text" id="para1" style="color:red;">
+  Hello Krishna
+</p>
+
+
+<!--Comments-->
+<!--This is a comment. It will not be displayed on the webpage.-->
+
+
+<!--HTML Entities-->
+&lt;  <!-- < -->
+&gt;  <!-- > -->
+&amp; <!-- & -->
+&nbsp; <!-- space -->
+
+
+<!--Meta SEO Tags-->
+<meta name="description" content="This is a sample webpage.">
+<meta name="keywords" content="HTML, CSS, JavaScript">
+<meta name="author" content="Krishna">
+
+
+<!--Linking CSS and JavaScript-->
+<link rel="stylesheet" href="style.css">
+<script src="app.js"></script>
+
+
+<!--Inline CSS-->
+<script>
+  alert("Hello");
+</script>
+
+<!--Responsive Basics-->
+<meta name="viewpoert" content=width-device-width, initial-scale="1.0">
+
+
+<!--Full example html-->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Site</title>
+</head>
+
+<body>
+
+<header>
+  <h1>My Website</h1>
+</header>
+
+<nav>
+  <a href="#">Home</a>
+  <a href="#">About</a>
+</nav>
+
+<main>
+  <section>
+    <h2>Content</h2>
+    <p>Hello world</p>
+  </section>
+</main>
+
+<footer>
+  <p>Copyright 2026</p>
+</footer>
+
+</body>
+</html>
